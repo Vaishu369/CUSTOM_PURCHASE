@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Purchase Predictor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('https://images.unsplash.com/photo-1542831371-d531d36971e6?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #e6f0fa;
+      scrollbar-color: #3bb6ff rgba(10, 25, 47, 0.4);
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    body::-webkit-scrollbar-track {
+      background: rgba(10, 25, 47, 0.4);
+      border-radius: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background-color: #1b1e20;
+      border-radius: 10px;
+      border: 2px solid rgba(10, 25, 47, 0.85);
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+      background-color: #080a0b;
+    }
+
+    .overlay {
+      background-color: rgba(10, 25, 47, 0.85);
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #cce9ff;
+    }
+
+    p.tagline {
+      text-align: center;
+      font-size: 1.1em;
+      color: #a8c7e5;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.05);
+      color: #e0ecf5;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 4px;
+      font-weight: 600;
+      color: #d8ebff;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #7ba5d9;
+      background: rgba(255, 255, 255, 0.1);
+      color: #eaf6ff;
+      border-radius: 6px;
+      font-size: 1em;
+      transition: border 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: #3bb6ff;
+      outline: none;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #3bb6ff;
+      border: none;
+      color: #0b1c2f;
+      font-size: 1em;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #121a1e;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(200, 235, 255, 0.2);
+      color: #fffeff;
+      border-left: 5px solid #3bb6ff;
+      border-radius: 6px;
+    }
+
+    .slideshow {
+      margin-top: 40px;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      background: rgba(0, 35, 70, 0.85);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: #eaf6ff;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide h3 {
+      margin-bottom: 8px;
+      color: #4fd3ff;
+    }
+
+    .slide p {
+      font-size: 1em;
+      margin: 0;
+    }
+
+    .slide-controls {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .slide-controls button {
+      background: transparent;
+      color: #4fd3ff;
+      border: 2px solid #4fd3ff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      margin: 0 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .slide-controls button:hover {
+      background: #4fd3ff;
+      color: #001a33;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2em;
+      }
+      form {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>Smart Purchase Predictor</h1>
+    <p class="tagline">For teens and grown-ups — find what you'll love and can afford!</p>
+
+    <form id="predictForm">
+      <label for="age">Your Age</label>
+      <input type="number" id="age" name="age" placeholder="e.g. 22" required>
+
+      <label for="income">Annual Income (₹)</label>
+      <input type="number" id="income" name="income" placeholder="e.g. 45000" required>
+
+      <label for="category">Interested Category</label>
+      <select id="category" name="category" required>
+        <option value="Electronics">Electronics</option>
+        <option value="Fashion">Fashion</option>
+        <option value="Books">Books</option>
+        <option value="Sports">Sports</option>
+        <option value="Home & Living">Home & Living</option>
+      </select>
+
+      <label for="price">Price Preference</label>
+      <select id="price" name="price" required>
+        <option value="low">Under ₹5000</option>
+        <option value="medium">₹30000–₹50000</option>
+        <option value="premium">Over ₹700000</option>
+      </select>
+
+      <button type="submit">Predict Now</button>
+      <div id="result" class="result" style="display:none;"></div>
+    </form>
+
+    <div class="slideshow">
+      <div class="slide active">
+        <h3>Wireless Earbuds</h3>
+        <p>₹9989 - Electronics - Great for teens & travelers</p>
+      </div>
+      <div class="slide">
+        <h3>Fitness Smartwatch</h3>
+        <p>₹19989 - Sports - Perfect for active adults</p>
+      </div>
+      <div class="slide">
+        <h3>Stylish Hoodie</h3>
+        <p>₹4500 - Fashion - Cozy and trendy for any age</p>
+      </div>
+      <div class="slide">
+        <h3>Modern Desk Lamp</h3>
+        <p>₹7590 - Home & Living - For students and home offices</p>
+      </div>
+      <div class="slide-controls">
+        <button onclick="prevSlide()">◀ Prev</button>
+        <button onclick="nextSlide()">Next ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("predictForm");
+    const resultBox = document.getElementById("result");
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const age = parseInt(document.getElementById("age").value, 10);
+      const income = parseInt(document.getElementById("income").value, 10);
+      const price = document.getElementById("price").value;
+
+      let chance = "medium";
+      if (income > 100000 || (age < 25 && price === "low")) {
+        chance = "high";
+      } else if (income < 30000 && price === "premium") {
+        chance = "low";
+      }
+
+      let message = "You have a good chance of purchasing a product in this range!";
+      if (chance === "high") message = "🎯 You're very likely to buy this product!";
+      if (chance === "low") message = "🤔 You might want to consider other options.";
+
+      resultBox.style.display = "block";
+      resultBox.textContent = message;
+    };
+
+   
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 5000);
+  </script>
+</body>
+</html>
